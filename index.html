@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HTML Duo — HTML Öğrenmenin En Eğlenceli Yolu!</title>
+<title>HTML Öğren — Eğlenceli HTML Dersleri!</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 
@@ -103,7 +103,6 @@
   .connector{width:3px;height:36px;background:var(--duo-card-border);border-radius:999px}
   .lesson-node.completed .lesson-circle{background:var(--duo-green);box-shadow:0 6px 0 var(--duo-green-dark)}
 
-  /* zigzag yolu düzenlemesi - her 4 düğüm için 8 elemanlı döngü */
   .lesson-node:nth-child(8n+1){align-self:center}
   .lesson-node:nth-child(8n+3){align-self:flex-end;margin-right:15%}
   .lesson-node:nth-child(8n+5){align-self:center}
@@ -155,6 +154,74 @@
   .option-btn.wrong{border-color:var(--duo-red);background:#ffe0e0;color:#5c0000;box-shadow:0 4px 0 var(--duo-red-dark);pointer-events:none;animation:shake .4s ease}
   @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 
+  /* ─── CODE EDITOR ─── */
+  .code-editor-wrap{
+    position:relative;
+    margin-bottom:16px;
+  }
+  .code-editor{
+    width:100%;min-height:120px;max-height:260px;
+    background:#0a1218;
+    border:2px solid var(--duo-card-border);
+    border-radius:var(--radius-sm);
+    padding:16px 18px;
+    font-family:'Courier New','Fira Code',monospace;
+    font-size:.95rem;line-height:1.6;
+    color:#e0e0e0;
+    resize:vertical;
+    outline:none;
+    transition:border-color .2s;
+  }
+  .code-editor:focus{
+    border-color:var(--duo-blue);
+    box-shadow:0 0 0 3px rgba(28,176,246,.15);
+  }
+  .code-editor::placeholder{
+    color:#4a6070;
+    font-style:italic;
+  }
+  .code-editor-label{
+    font-size:.8rem;font-weight:700;
+    color:var(--duo-text-dim);
+    margin-bottom:8px;
+    display:flex;align-items:center;gap:6px;
+  }
+  .code-editor-label .editor-icon{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:20px;height:20px;border-radius:4px;
+    background:var(--duo-blue);color:#fff;font-size:.65rem;font-weight:900;
+  }
+  .code-result-preview{
+    background:#0a1218;
+    border:2px solid var(--duo-card-border);
+    border-radius:var(--radius-sm);
+    padding:14px 18px;
+    margin-top:10px;
+    min-height:40px;
+    font-size:.9rem;
+    color:var(--duo-text-dim);
+    transition:all .3s;
+  }
+  .code-result-preview.success{
+    border-color:var(--duo-green);
+    background:#0d1f12;
+  }
+  .code-result-preview.fail{
+    border-color:var(--duo-red);
+    background:#1f0d0d;
+  }
+  .code-result-preview .preview-label{
+    font-size:.75rem;font-weight:700;text-transform:uppercase;
+    color:var(--duo-text-dim);margin-bottom:6px;
+  }
+  .code-result-preview .preview-content{
+    font-family:'Courier New',monospace;
+    color:var(--duo-text);font-size:.9rem;line-height:1.5;
+  }
+  .code-result-preview .preview-content.rendered{
+    font-family:'Nunito',sans-serif;
+  }
+
   /* ─── CTA BUTTON ─── */
   .btn-cta{
     display:block;width:100%;padding:16px;
@@ -167,9 +234,12 @@
   .btn-cta.green:hover{filter:brightness(1.05)}
   .btn-cta.green:active{transform:translateY(4px);box-shadow:0 2px 0 var(--duo-green-dark)}
   .btn-cta.blue{background:var(--duo-blue);box-shadow:0 6px 0 var(--duo-blue-dark)}
-  .btn-cta.blue:active{transform:translateY(4px);box-shadow:0 2px 0 var(--duo-green-dark)}
+  .btn-cta.blue:active{transform:translateY(4px);box-shadow:0 2px 0 var(--duo-blue-dark)}
   .btn-cta:disabled{background:#4b5d67;box-shadow:0 6px 0 #3a484f;cursor:not-allowed;opacity:.7}
   .btn-cta.green:disabled{background:#4b5d67;box-shadow:0 6px 0 #3a484f}
+
+  .btn-row{display:flex;gap:12px;margin-top:4px;}
+  .btn-row .btn-cta{flex:1;}
 
   /* ─── FEEDBACK OVERLAY ─── */
   .feedback-bar{
@@ -255,6 +325,8 @@
     .lesson-node:nth-child(8n+3){margin-right:5%}
     .lesson-node:nth-child(8n+7){margin-left:5%}
     .lesson-circle{width:60px;height:60px;font-size:1.5rem}
+    .code-editor{font-size:.85rem;min-height:100px;padding:12px 14px}
+    .btn-row{flex-direction:column;gap:10px}
   }
 
   /* ─── LEARN CARD INSIDE QUIZ ─── */
@@ -283,11 +355,11 @@
 
 <!-- Top Bar -->
 <div class="top-bar">
-  <div class="logo">HTML<span>Duo</span></div>
+  <div class="logo">HTML<span>Öğren</span></div>
   <div class="progress-wrap">
     <div class="progress-fill" id="globalProgress" style="width:0%"></div>
   </div>
-  <div class="progress-text" id="globalProgressText">0%</div>
+  <div class="progress-text" id="globalProgressText">%0</div>
   <div class="xp-badge" id="xpBadge">0 XP</div>
   <div class="hearts" id="heartsDisplay">
     <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
@@ -321,7 +393,7 @@
     <div class="hero">
       <div class="hero-icon">🦉</div>
       <h1><span>HTML</span> Etiketlerini Öğren</h1>
-      <p>Web'in temel taşlarını her seferinde bir dersle feth et!</p>
+      <p>Web'in yapı taşlarını adım adım öğren, eğlenerek ilerle!</p>
     </div>
     <div class="lesson-path" id="lessonPath"></div>
   </div>
@@ -339,69 +411,111 @@
 </div>
 
 <script>
-// ══════════════════════════════
-// VERİ: Dersler & Sorular
-// ══════════════════════════════
+// ════════════════
+// DATA: Dersler & Sorular (Türkçe)
+// ════════════════
 const LESSONS = [
   {
     id:1, title:"Başlıklar", icon:"📝", color:"green",
-    learn:{tag:"&lt;h1&gt; – &lt;h6&gt;", desc:"Başlık etiketleri başlıkları ve alt başlıkları tanımlar. <code>&lt;h1&gt;</code> en büyük, <code>&lt;h6&gt;</code> en küçüktür.", example:"&lt;h1&gt;Hoşgeldiniz!&lt;/h1&gt;\n&lt;h2&gt;Hakkımızda&lt;/h2&gt;"},
+    learn:{tag:"&lt;h1&gt; – &lt;h6&gt;", desc:"Başlık etiketleri, sayfa başlıklarını ve alt başlıkları tanımlar. <code>&lt;h1&gt;</code> en büyük, <code>&lt;h6&gt;</code> en küçüktür.", example:"&lt;h1&gt;Hoş Geldiniz!&lt;/h1&gt;\n&lt;h2&gt;Hakkımızda&lt;/h2&gt;"},
     questions:[
-      {prompt:"Hangi etiket EN BÜYÜK başlığı oluşturur?", options:["&lt;h6&gt;","&lt;h1&gt;","&lt;head&gt;","&lt;big&gt;"], correct:1, explain:"<h1> en üst düzey başlıktır — en büyük ve en kalın!"},
-      {prompt:"HTML kaç tane başlık seviyesi sunar?", options:["4","5","6","8"], correct:2, explain:"HTML'de 6 başlık seviyesi vardır: <h1>'den <h6>'ya kadar."},
-      {prompt:"Aşağıdaki kod ne üretir?<br><code>&lt;h3&gt;Merhaba&lt;/h3&gt;</code>", options:["Bir paragraf","Orta boy bir başlık","Bir link","Bir liste elemanı"], correct:1, explain:"<h3> orta düzey bir başlık oluşturur — <h1> ve <h2>'den küçüktür."},
+      {type:"choice", prompt:"En BÜYÜK başlığı hangi etiket oluşturur?", options:["&lt;h6&gt;","&lt;h1&gt;","&lt;head&gt;","&lt;big&gt;"], correct:1, explain:"<h1> en yüksek seviye başlıktır — en büyük ve en kalın!"},
+      {type:"choice", prompt:"HTML'de kaç seviye başlık vardır?", options:["4","5","6","8"], correct:2, explain:"HTML'de 6 başlık seviyesi vardır: <h1>'den <h6>'ya kadar."},
+      {type:"choice", prompt:"Aşağıdaki kod ne üretir?<br><code>&lt;h3&gt;Merhaba&lt;/h3&gt;</code>", options:["Bir paragraf","Orta boyutta bir başlık","Bir bağlantı","Bir liste öğesi"], correct:1, explain:"<h3> orta seviye bir başlık oluşturur — <h1> ve <h2>'den küçüktür."},
+      {type:"code", prompt:"Bir &lt;h1&gt; başlık etiketi yazın. İçeriği 'Merhaba Dünya' olsun.", placeholder:"Kodunuzu buraya yazın...", required:["<h1>","</h1>","Merhaba Dünya"], explain:"<h1> etiketi açılır, metin yazılır ve </h1> ile kapatılır."},
     ]
   },
   {
     id:2, title:"Paragraflar", icon:"📄", color:"blue",
-    learn:{tag:"&lt;p&gt;", desc:"Paragraf etiketi metin bloklarını sarmalar. Tarayıcılar otomatik olarak üstüne ve altına boşluk ekler.", example:"&lt;p&gt;HTML harika!&lt;/p&gt;\n&lt;p&gt;Öğrenmeye devam edelim.&lt;/p&gt;"},
+    learn:{tag:"&lt;p&gt;", desc:"Paragraf etiketi metin bloklarını sarar. Tarayıcılar otomatik olarak üstüne ve altına boşluk ekler.", example:"&lt;p&gt;HTML harika!&lt;/p&gt;\n&lt;p&gt;Öğrenmeye devam edelim.&lt;/p&gt;"},
     questions:[
-      {prompt:"Metin paragrafı için hangi etiket kullanılır?", options:["&lt;para&gt;","&lt;text&gt;","&lt;p&gt;","&lt;pg&gt;"], correct:2, explain:"<p> paragraf etiketidir — basit ve temel!"},
-      {prompt:"Arka arkaya iki &lt;p&gt; etiketi koyarsanız ne olur?", options:["Tek bir paragrafta birleşirler","Her biri aralarında boşluk olacak şekilde yeni satırda başlar","Aynı satırda görünürler","Hata oluşur"], correct:1, explain:"Her <p> etiketi aralarında boşluk olan ayrı bir blok oluşturur."},
-      {prompt:"&lt;p&gt; bir inline mı yoksa block-level eleman mıdır?", options:["Inline","Block-level","Hiçbiri","Her ikisi"], correct:1, explain:"<p> block-level bir elemandır — mevcut tüm genişliği kaplar."},
+      {type:"choice", prompt:"Metin paragrafı için hangi etiket kullanılır?", options:["&lt;para&gt;","&lt;text&gt;","&lt;p&gt;","&lt;pg&gt;"], correct:2, explain:"<p> paragraf etiketidir — basit ve vazgeçilmez!"},
+      {type:"choice", prompt:"Art arda iki &lt;p&gt; etiketi koyduğunuzda ne olur?", options:["Tek paragrafta birleşirler","Her biri aralarında boşlukla yeni satırda başlar","Aynı satırda görünürler","Hata oluşur"], correct:1, explain:"Her <p> etiketi boşluklu ayrı bir blok oluşturur."},
+      {type:"code", prompt:"İçinde 'HTML öğreniyorum' yazan bir paragraf etiketi yazın.", placeholder:"<p> etiketini kullanın...", required:["<p>","</p>","HTML öğreniyorum"], explain:"<p> ile açıp </p> ile kapatmanız gerekir."},
     ]
   },
   {
-    id:3, title:"Linkler", icon:"🔗", color:"purple",
-    learn:{tag:"&lt;a&gt;", desc:"Anchor (çapa) etiketi tıklanabilir köprüler oluşturur. <code>href</code> özniteliği tarayıcıya nereye gideceğini söyler.", example:'&lt;a href="https://example.com"&gt;\n  Sitemi Ziyaret Et\n&lt;/a&gt;'},
+    id:3, title:"Bağlantılar", icon:"🔗", color:"purple",
+    learn:{tag:"&lt;a&gt;", desc:"Çapa (anchor) etiketi tıklanabilir bağlantılar oluşturur. <code>href</code> özelliği tarayıcıya nereye gideceğini söyler.", example:'&lt;a href="https://ornek.com"&gt;\n  Örnek Siteyi Ziyaret Et\n&lt;/a&gt;'},
     questions:[
-      {prompt:"Hangi etiket bir köprü oluşturur?", options:["&lt;link&gt;","&lt;a&gt;","&lt;href&gt;","&lt;url&gt;"], correct:1, explain:"<a> (anchor) link etiketidir. <link> ise stil dosyaları içindir!"},
-      {prompt:"Hangi öznitelik bağlantının hedef URL'sini belirtir?", options:["src","link","url","href"], correct:3, explain:'href, "Hypertext Reference" (Hiper Metin Referansı) anlamına gelir.'},
-      {prompt:'<code>&lt;a href="#top"&gt;Yukarı Git&lt;/a&gt;</code> kodu ne yapar?', options:["Yeni bir sayfa açar","id=\'top\' olan elemana kaydırır","Bir başlık oluşturur","Hiçbir şey"], correct:1, explain:'Bir # linki, aynı sayfadaki o ID\'ye sahip elemana atlar.'},
+      {type:"choice", prompt:"Hangi etiket bir bağlantı (link) oluşturur?", options:["&lt;link&gt;","&lt;a&gt;","&lt;href&gt;","&lt;url&gt;"], correct:1, explain:"<a> (anchor/çapa) bağlantı etiketidir. <link> stil dosyaları içindir!"},
+      {type:"choice", prompt:"Bağlantının hedef URL'sini hangi özellik belirtir?", options:["src","link","url","href"], correct:3, explain:'href "Hypertext Reference" anlamına gelir — URL\'yi tutar.'},
+      {type:"code", prompt:"https://google.com adresine giden ve 'Google' yazan bir bağlantı etiketi yazın.", placeholder:'<a href="...">...</a> formatında yazın', required:["<a","href","https://google.com","</a>","Google"], explain:'<a href="URL">Metin</a> yapısı kullanılır.'},
     ]
   },
   {
-    id:4, title:"Resimler", icon:"🖼️", color:"orange",
-    learn:{tag:"&lt;img&gt;", desc:"Resim etiketi görselleri gömer. Kendi kendine kapanır! URL için <code>src</code>, metin açıklaması için <code>alt</code> kullanın.", example:'&lt;img src="fotograf.jpg" alt="Bir gün batımı" /&gt;'},
+    id:4, title:"Görseller", icon:"🖼️", color:"orange",
+    learn:{tag:"&lt;img&gt;", desc:"Görsel etiketi resimleri gömer. Kendiliğinden kapanır! URL için <code>src</code>, açıklama için <code>alt</code> kullanılır.", example:'&lt;img src="foto.jpg" alt="Gün batımı" /&gt;'},
     questions:[
-      {prompt:"Hangi etiket bir resim gösterir?", options:["&lt;pic&gt;","&lt;image&gt;","&lt;img&gt;","&lt;photo&gt;"], correct:2, explain:"<img> resim etiketidir — kısa ve öz!"},
-      {prompt:"Hangi öznitelik resim dosyası yoludur?", options:["href","link","src","file"], correct:2, explain:'src (source - kaynak) resim dosyasının konumunu gösterir.'},
-      {prompt:"<code>alt</code> özniteliği neden önemlidir?", options:["Resimleri büyütür","Resmin yüklenmesi için gereklidir","Ekran okuyucular ve yüklenemeyen resimler için metin sağlar","Kenarlık ekler"], correct:2, explain:"alt metni, erişilebilirlik ve resimler yüklenemediğinde kritiktir."},
+      {type:"choice", prompt:"Hangi etiket bir görsel gösterir?", options:["&lt;pic&gt;","&lt;image&gt;","&lt;img&gt;","&lt;photo&gt;"], correct:2, explain:"<img> görsel etiketidir — kısa ve öz!"},
+      {type:"choice", prompt:"Görsel dosya yolunu hangi özellik belirtir?", options:["href","link","src","file"], correct:2, explain:'src (source/kaynak) görsel dosyasının konumunu gösterir.'},
+      {type:"choice", prompt:"<code>alt</code> özelliği neden önemlidir?", options:["Görselleri büyütür","Görselin yüklenmesi için gereklidir","Ekran okuyucular ve bozuk görseller için metin sağlar","Kenarlık ekler"], correct:2, explain:"alt metni erişilebilirlik ve görseller yüklenemediğinde çok önemlidir."},
     ]
   },
   {
     id:5, title:"Listeler", icon:"📋", color:"green",
-    learn:{tag:"&lt;ul&gt; &lt;ol&gt; &lt;li&gt;", desc:"<code>&lt;ul&gt;</code> maddeli listeler, <code>&lt;ol&gt;</code> numaralı listeler oluşturur. Her öğe <code>&lt;li&gt;</code> kullanır.", example:"&lt;ul&gt;\n  &lt;li&gt;HTML&lt;/li&gt;\n  &lt;li&gt;CSS&lt;/li&gt;\n  &lt;li&gt;JavaScript&lt;/li&gt;\n&lt;/ul&gt;"},
+    learn:{tag:"&lt;ul&gt; &lt;ol&gt; &lt;li&gt;", desc:"<code>&lt;ul&gt;</code> madde işaretli listeler, <code>&lt;ol&gt;</code> numaralı listeler oluşturur. Her öğe <code>&lt;li&gt;</code> kullanır.", example:"&lt;ul&gt;\n  &lt;li&gt;HTML&lt;/li&gt;\n  &lt;li&gt;CSS&lt;/li&gt;\n  &lt;li&gt;JavaScript&lt;/li&gt;\n&lt;/ul&gt;"},
     questions:[
-      {prompt:"Hangi etiket maddeli (sırasız) bir liste oluşturur?", options:["&lt;ol&gt;","&lt;list&gt;","&lt;ul&gt;","&lt;bl&gt;"], correct:2, explain:"<ul>, Unordered List (Sırasız Liste) demektir — numaralar değil, maddeler!"},
-      {prompt:"Her bir liste öğesini hangi etiket sarmalar?", options:["&lt;item&gt;","&lt;li&gt;","&lt;il&gt;","&lt;list&gt;"], correct:1, explain:"<li>, List Item (Liste Öğesi) demektir."},
-      {prompt:"&lt;ul&gt; ve &lt;ol&gt; arasındaki fark nedir?", options:["Fark yoktur","ul = numaralı, ol = maddeli","ul = maddeli, ol = numaralı","ul linkler için, ol metin için"], correct:2, explain:"<ul> = Sırasız (maddeler), <ol> = Sıralı (numaralar)."},
+      {type:"choice", prompt:"Madde işaretli (sırasız) liste hangi etiketle oluşturulur?", options:["&lt;ol&gt;","&lt;list&gt;","&lt;ul&gt;","&lt;bl&gt;"], correct:2, explain:"<ul> Unordered List (Sırasız Liste) anlamına gelir — numaralar değil, madde işaretleri!"},
+      {type:"choice", prompt:"Her bir liste öğesini hangi etiket sarar?", options:["&lt;item&gt;","&lt;li&gt;","&lt;il&gt;","&lt;list&gt;"], correct:1, explain:"<li> List Item (Liste Öğesi) anlamına gelir."},
+      {type:"code", prompt:"İçinde 'Elma' ve 'Armut' öğeleri olan sırasız bir liste (&lt;ul&gt;) yazın.", placeholder:"<ul> ve <li> etiketlerini kullanın...", required:["<ul>","</ul>","<li>","</li>","Elma","Armut"], explain:"<ul> içinde her öğe <li> etiketi ile sarılmalıdır."},
     ]
   },
   {
-    id:6, title:"Divler & Spanlar", icon:"📦", color:"blue",
-    learn:{tag:"&lt;div&gt; &lt;span&gt;", desc:"<code>&lt;div&gt;</code> elemanları gruplamak için bir block kapsayıcıdır. <code>&lt;span&gt;</code> ise küçük metin parçalarını stillendirmek için bir inline kapsayıcıdır.", example:'&lt;div class="kart"&gt;\n  &lt;p&gt;Merhaba &lt;span style="color:red"&gt;Dünya&lt;/span&gt;&lt;/p&gt;\n&lt;/div&gt;'},
+    id:6, title:"Div & Span", icon:"📦", color:"blue",
+    learn:{tag:"&lt;div&gt; &lt;span&gt;", desc:"<code>&lt;div&gt;</code> elemanları gruplamak için blok kapsayıcıdır. <code>&lt;span&gt;</code> ise küçük metin parçalarını stilize etmek için satır içi kapsayıcıdır.", example:'&lt;div class="kart"&gt;\n  &lt;p&gt;Merhaba &lt;span style="color:red"&gt;Dünya&lt;/span&gt;&lt;/p&gt;\n&lt;/div&gt;'},
     questions:[
-      {prompt:"Hangi etiket genel bir BLOCK-level kapsayıcıdır?", options:["&lt;span&gt;","&lt;section&gt;","&lt;div&gt;","&lt;container&gt;"], correct:2, explain:"<div>, HTML\'deki en yaygın block-level kapsayıcıdır."},
-      {prompt:"Küçük bir INLINE metin parçasını stillendirmek için hangisi kullanılır?", options:["&lt;div&gt;","&lt;span&gt;","&lt;text&gt;","&lt;inline&gt;"], correct:1, explain:"<span>, inline içeriği hedeflemek için kullanılır."},
-      {prompt:"Bir &lt;div&gt; içine başka bir &lt;div&gt; koyabilir misiniz?", options:["Hayır, geçersizdir","Evet, divleri iç içe koymak yaygındır","Sadece özel özniteliklerle","Sadece HTML5\'te"], correct:1, explain:"Divleri iç içe koymak (nesting) tamamen geçerli ve düzenler için çok yaygındır."},
+      {type:"choice", prompt:"Genel amaçlı BLOK seviyesi kapsayıcı hangi etikettir?", options:["&lt;span&gt;","&lt;section&gt;","&lt;div&gt;","&lt;container&gt;"], correct:2, explain:"<div> HTML'de en yaygın blok seviyesi kapsayıcıdır."},
+      {type:"choice", prompt:"Küçük bir SATİR İÇİ metin parçasını stilize etmek için hangi etiket kullanılır?", options:["&lt;div&gt;","&lt;span&gt;","&lt;text&gt;","&lt;inline&gt;"], correct:1, explain:"<span> satır içi içeriği stilize etmek veya hedeflemek için sarar."},
+      {type:"code", prompt:"Bir &lt;div&gt; içinde, 'Merhaba' yazan bir paragraf oluşturun.", placeholder:'<div> ve <p> etiketlerini kullanın...', required:["<div>","</div>","<p>","</p>","Merhaba"], explain:"<div> içine <p> etiketi yerleştirmek geçerli ve yaygındır."},
+    ]
+  },
+  // ─── YENİ DERSLER ───
+  {
+    id:7, title:"Formlar", icon:"📝", color:"purple",
+    learn:{tag:"&lt;form&gt; &lt;input&gt; &lt;label&gt;", desc:"<code>&lt;form&gt;</code> kullanıcı verisi toplamak için kullanılır. <code>&lt;input&gt;</code> giriş alanları, <code>&lt;label&gt;</code> ise etiketler oluşturur.", example:'&lt;form&gt;\n  &lt;label for="ad"&gt;Adınız:&lt;/label&gt;\n  &lt;input type="text" id="ad" /&gt;\n  &lt;input type="submit" value="Gönder" /&gt;\n&lt;/form&gt;'},
+    questions:[
+      {type:"choice", prompt:"Kullanıcıdan veri toplamak için hangi etiket kullanılır?", options:["&lt;data&gt;","&lt;form&gt;","&lt;input&gt;","&lt;collect&gt;"], correct:1, explain:"<form> etiketi kullanıcı verisi toplamak için ana kapsayıcıdır."},
+      {type:"choice", prompt:"Metin giriş alanı oluşturmak için hangi etiket kullanılır?", options:["&lt;textbox&gt;","&lt;field&gt;","&lt;input&gt;","&lt;text&gt;"], correct:2, explain:"<input> etiketi çeşitli giriş alanları oluşturur. type=\"text\" metin kutusu yapar."},
+      {type:"choice", prompt:"&lt;label&gt; etiketinin 'for' özelliği ne işe yarar?", options:["Formu gönderir","Etiketi belirli bir input ile ilişkilendirir","Metin rengini değiştirir","Yeni sayfa açar"], correct:1, explain:"'for' özelliği, label'ı aynı id'ye sahip input ile eşleştirir. Tıklayınca input'a odaklar."},
+      {type:"code", prompt:"Bir &lt;form&gt; içinde, 'E-posta' etiketli bir metin giriş alanı oluşturun. &lt;label&gt; ve &lt;input&gt; kullanın.", placeholder:'<form>\n  <label>...</label>\n  <input ... />\n</form>', required:["<form>","</form>","<label>","</label>","<input","E-posta"], explain:"<form> içinde <label> ve <input> birlikte kullanılır."},
+    ]
+  },
+  {
+    id:8, title:"Tablolar", icon:"📊", color:"orange",
+    learn:{tag:"&lt;table&gt; &lt;tr&gt; &lt;td&gt; &lt;th&gt;", desc:"<code>&lt;table&gt;</code> tablo oluşturur. <code>&lt;tr&gt;</code> satır, <code>&lt;th&gt;</code> başlık hücresi, <code>&lt;td&gt;</code> veri hücresidir.", example:"&lt;table&gt;\n  &lt;tr&gt;\n    &lt;th&gt;İsim&lt;/th&gt;\n    &lt;th&gt;Yaş&lt;/th&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n    &lt;td&gt;Ali&lt;/td&gt;\n    &lt;td&gt;25&lt;/td&gt;\n  &lt;/tr&gt;\n&lt;/table&gt;"},
+    questions:[
+      {type:"choice", prompt:"HTML'de tablo oluşturmak için hangi etiket kullanılır?", options:["&lt;grid&gt;","&lt;table&gt;","&lt;tablo&gt;","&lt;tab&gt;"], correct:1, explain:"<table> etiketi HTML tablolarını oluşturmak için kullanılır."},
+      {type:"choice", prompt:"Tablo satırı oluşturmak için hangi etiket kullanılır?", options:["&lt;row&gt;","&lt;td&gt;","&lt;tr&gt;","&lt;line&gt;"], correct:2, explain:"<tr> (Table Row) tablo satırı oluşturur."},
+      {type:"choice", prompt:"&lt;th&gt; ve &lt;td&gt; arasındaki fark nedir?", options:["Fark yoktur","th başlık, td veri hücresidir","th büyük, td küçüktür","th tablo, td satırdır"], correct:1, explain:"<th> başlık hücresi (kalın ve ortalı), <td> normal veri hücresidir."},
+      {type:"code", prompt:"Bir satırda 'Ad' ve 'Soyad' başlıkları olan bir tablo başlığı yazın. &lt;table&gt;, &lt;tr&gt; ve &lt;th&gt; kullanın.", placeholder:'<table>\n  <tr>\n    <th>...</th>\n  </tr>\n</table>', required:["<table>","</table>","<tr>","</tr>","<th>","</th>","Ad","Soyad"], explain:"<table> içinde <tr> satır, <th> başlık hücresi oluşturur."},
+    ]
+  },
+  {
+    id:9, title:"Semantik HTML", icon:"🏗️", color:"green",
+    learn:{tag:"&lt;header&gt; &lt;footer&gt; &lt;main&gt; &lt;nav&gt;", desc:"Semantik etiketler sayfanın yapısını anlamlı şekilde tanımlar. <code>&lt;header&gt;</code> üst kısım, <code>&lt;main&gt;</code> ana içerik, <code>&lt;footer&gt;</code> alt kısım, <code>&lt;nav&gt;</code> navigasyon alanıdır.", example:"&lt;header&gt;\n  &lt;h1&gt;Sitem&lt;/h1&gt;\n  &lt;nav&gt;Menü&lt;/nav&gt;\n&lt;/header&gt;\n&lt;main&gt;\n  &lt;p&gt;Ana içerik&lt;/p&gt;\n&lt;/main&gt;\n&lt;footer&gt;\n  &lt;p&gt;© 2026&lt;/p&gt;\n&lt;/footer&gt;"},
+    questions:[
+      {type:"choice", prompt:"Sayfanın ana içeriğini hangi semantik etiket tanımlar?", options:["&lt;content&gt;","&lt;body&gt;","&lt;main&gt;","&lt;section&gt;"], correct:2, explain:"<main> sayfanın birincil/ana içeriğini tanımlar."},
+      {type:"choice", prompt:"Sayfa alt bilgisi için hangi etiket kullanılır?", options:["&lt;bottom&gt;","&lt;footer&gt;","&lt;end&gt;","&lt;base&gt;"], correct:1, explain:"<footer> sayfa veya bölüm alt bilgisini tanımlar."},
+      {type:"choice", prompt:"Semantik HTML kullanmanın avantajı nedir?", options:["Sayfa daha hızlı yüklenir","Sadece görsel değişiklik yapar","Erişilebilirlik ve SEO'yu iyileştirir","JavaScript'i hızlandırır"], correct:2, explain:"Semantik etiketler ekran okuyucular ve arama motorları için anlam sağlar."},
+      {type:"code", prompt:"&lt;header&gt; içinde 'Blogum' başlığı olan basit bir sayfa üst kısmı yazın.", placeholder:'<header>\n  <h1>...</h1>\n</header>', required:["<header>","</header>","<h1>","</h1>","Blogum"], explain:"<header> içine <h1> başlık etiketi yerleştirilir."},
+    ]
+  },
+  {
+    id:10, title:"CSS Temelleri", icon:"🎨", color:"blue",
+    learn:{tag:"style özelliği", desc:"CSS, HTML elemanlarının görünümünü kontrol eder. <code>color</code> metin rengi, <code>background-color</code> arka plan rengi, <code>font-size</code> yazı boyutu ayarlar. <code>style</code> özelliği ile satır içi CSS yazabilirsiniz.", example:'&lt;p style="color: blue; font-size: 20px;"&gt;\n  Mavi ve büyük metin\n&lt;/p&gt;\n\n&lt;div style="background-color: yellow;"&gt;\n  Sarı arka plan\n&lt;/div&gt;'},
+    questions:[
+      {type:"choice", prompt:"Metin rengini değiştirmek için hangi CSS özelliği kullanılır?", options:["text-color","font-color","color","text-style"], correct:2, explain:"'color' özelliği metin rengini belirler."},
+      {type:"choice", prompt:"Arka plan rengini değiştirmek için hangi CSS özelliği kullanılır?", options:["bg-color","background-color","back-color","fill-color"], correct:1, explain:"'background-color' arka plan rengini ayarlar."},
+      {type:"choice", prompt:"Yazı boyutunu ayarlamak için hangi CSS özelliği kullanılır?", options:["text-size","font-height","size","font-size"], correct:3, explain:"'font-size' yazı tipi boyutunu kontrol eder (px, em, rem birimleri ile)."},
+      {type:"code", prompt:'Kırmızı renkli ve 24px boyutunda metin içeren bir &lt;p&gt; etiketi yazın. style özelliğini kullanın.', placeholder:'<p style="...">...</p>', required:["<p","style","color","red","font-size","24px","</p>"], explain:'style özelliği içinde color ve font-size CSS kuralları yazılır.'},
     ]
   },
 ];
 
-// ══════════════════════════════
-// DURUM
-// ══════════════════════════════
+// ════════════════
+// STATE
+// ════════════════
 let state = {
   currentLesson: null,
   currentQuestion: 0,
@@ -410,15 +524,15 @@ let state = {
   hearts: 5,
   streak: 0,
   lessonsCompleted: [],
-  phase: 'home', // home | learn | quiz | results
+  phase: 'home',
   answered: false,
   lessonCorrect: 0,
   lessonWrong: 0,
 };
 
-// Kaydedilmiş durumu yükle
+// Load saved state
 try {
-  const saved = localStorage.getItem('htmlduo_state');
+  const saved = localStorage.getItem('htmlogren_state_v2');
   if (saved) {
     const s = JSON.parse(saved);
     state.totalXP = s.totalXP || 0;
@@ -430,7 +544,7 @@ try {
 
 function saveState() {
   try {
-    localStorage.setItem('htmlduo_state', JSON.stringify({
+    localStorage.setItem('htmlogren_state_v2', JSON.stringify({
       totalXP: state.totalXP,
       hearts: state.hearts,
       streak: state.streak,
@@ -439,9 +553,9 @@ function saveState() {
   } catch(e){}
 }
 
-// ══════════════════════════
-// UI YARDIMCILARI
-// ══════════════════════════
+// ════════════════
+// UI HELPERS
+// ════════════════
 const $ = id => document.getElementById(id);
 
 function showScreen(name) {
@@ -452,7 +566,7 @@ function showScreen(name) {
 function updateGlobalProgress() {
   const pct = Math.round((state.lessonsCompleted.length / LESSONS.length) * 100);
   $('globalProgress').style.width = pct + '%';
-  $('globalProgressText').textContent = pct + '%';
+  $('globalProgressText').textContent = '%' + pct;
   $('xpBadge').textContent = state.totalXP + ' XP';
   $('heartsCount').textContent = state.hearts;
   const si = $('streakIndicator');
@@ -495,9 +609,9 @@ function spawnConfetti() {
   }
 }
 
-// ══════════════════════════
-// ANA EKRAN — DERS YOLU
-// ══════════════════════════
+// ════════════
+// HOME SCREEN — DERS YOLU
+// ════════════
 function renderHome() {
   const path = $('lessonPath');
   path.innerHTML = '';
@@ -529,19 +643,19 @@ function renderHome() {
   updateGlobalProgress();
 }
 
-// ══════════════════════════
-// DERSİ BAŞLAT
-// ══════════════════════════
+// ════════════
+// DERS BAŞLAT
+// ════════════
 function startLesson(lesson) {
   if (state.hearts <= 0) {
-    showToast('Canın kalmadı! Bekle veya yenile.', true);
+    showToast('Canınız kalmadı! Sayfa yenilendiğinde canlar sıfırlanır.', true);
     state.hearts = 5;
     saveState();
     updateGlobalProgress();
     return;
   }
   state.currentLesson = lesson;
-  state.currentQuestion = -1; // -1 = learn phase
+  state.currentQuestion = -1;
   state.lessonCorrect = 0;
   state.lessonWrong = 0;
   state.answered = false;
@@ -550,16 +664,15 @@ function startLesson(lesson) {
   renderQuiz();
 }
 
-// ══════════════════════════
-// TEST / ÖĞRENME EKRANI
-// ══════════════════════════
+// ════════════
+// QUIZ / ÖĞRENME EKRANI
+// ════════════
 function renderQuiz() {
   const lesson = state.currentLesson;
   const qc = $('quizContainer');
   hideFeedback();
 
   if (state.currentQuestion === -1) {
-    // Öğrenme aşaması
     const l = lesson.learn;
     qc.innerHTML = `
       <div class="quiz-header">
@@ -571,7 +684,7 @@ function renderQuiz() {
         <div class="tag-desc">${l.desc}</div>
         <div class="tag-example">${l.example}</div>
       </div>
-      <button class="btn-cta green" onclick="advanceQuestion()">ANLADIM — HAYDİ PRATİK YAPALIM!</button>
+      <button class="btn-cta green" onclick="advanceQuestion()">ANLADIM — ALIŞTIRMAYA GEÇ!</button>
     `;
     return;
   }
@@ -581,6 +694,17 @@ function renderQuiz() {
   const total = lesson.questions.length;
   const pct = Math.round(((qi) / total) * 100);
 
+  if (q.type === 'code') {
+    renderCodeQuestion(lesson, q, qi, total, pct);
+  } else {
+    renderChoiceQuestion(lesson, q, qi, total, pct);
+  }
+  state.answered = false;
+  selectedIdx = null;
+}
+
+function renderChoiceQuestion(lesson, q, qi, total, pct) {
+  const qc = $('quizContainer');
   let optionsHTML = q.options.map((o, i) =>
     `<button class="option-btn" data-idx="${i}" onclick="selectOption(${i})">${o}</button>`
   ).join('');
@@ -598,13 +722,130 @@ function renderQuiz() {
     </div>
     <button class="btn-cta green" id="checkBtn" disabled onclick="checkAnswer()">KONTROL ET</button>
   `;
-  state.answered = false;
-  state.selectedOption = null;
 }
 
-// ══════════════════════════
+function renderCodeQuestion(lesson, q, qi, total, pct) {
+  const qc = $('quizContainer');
+  qc.innerHTML = `
+    <div class="quiz-header">
+      <div class="lesson-title">${lesson.icon} ${lesson.title}</div>
+      <div class="question-counter">Soru ${qi+1} / ${total}</div>
+    </div>
+    <div class="quiz-progress"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
+    <div class="quiz-card">
+      <div class="prompt">✍️ ${q.prompt}</div>
+      <div class="code-editor-wrap">
+        <div class="code-editor-label">
+          <span class="editor-icon">&lt;/&gt;</span> Kod Editörü
+        </div>
+        <textarea class="code-editor" id="codeInput" placeholder="${q.placeholder || 'HTML kodunuzu buraya yazın...'}" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"></textarea>
+      </div>
+      <div class="code-result-preview" id="codePreview" style="display:none">
+        <div class="preview-label">Sonuç</div>
+        <div class="preview-content" id="previewContent"></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-cta blue" id="runBtn" onclick="runCode()">▶ ÇALIŞTIR</button>
+      <button class="btn-cta green" id="checkCodeBtn" onclick="checkCodeAnswer()">KONTROL ET</button>
+    </div>
+  `;
+  // Auto-resize
+  const ta = $('codeInput');
+  ta.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 260) + 'px';
+  });
+}
+
+function runCode() {
+  const code = $('codeInput').value.trim();
+  const preview = $('codePreview');
+  const content = $('previewContent');
+  if (!code) {
+    showToast('Önce bir kod yazın!', true);
+    return;
+  }
+  preview.style.display = 'block';
+  preview.className = 'code-result-preview';
+  // Render preview safely
+  content.innerHTML = '';
+  content.className = 'preview-content rendered';
+  try {
+    // Create a sandboxed render
+    const sandbox = document.createElement('div');
+    sandbox.innerHTML = code;
+    // Strip scripts for safety
+    sandbox.querySelectorAll('script').forEach(s => s.remove());
+    content.appendChild(sandbox);
+  } catch(e) {
+    content.textContent = 'Hata: ' + e.message;
+    content.className = 'preview-content';
+  }
+}
+
+function checkCodeAnswer() {
+  if (state.answered) return;
+  const code = $('codeInput').value.trim();
+  if (!code) {
+    showToast('Lütfen kodunuzu yazın!', true);
+    return;
+  }
+
+  state.answered = true;
+  const q = state.currentLesson.questions[state.currentQuestion];
+  const lowerCode = code.toLowerCase();
+  const preview = $('codePreview');
+
+  // Validate: all required strings must be present
+  const allPresent = q.required.every(req => lowerCode.includes(req.toLowerCase()));
+
+  preview.style.display = 'block';
+  const content = $('previewContent');
+
+  if (allPresent) {
+    preview.className = 'code-result-preview success';
+    content.className = 'preview-content rendered';
+    content.innerHTML = '';
+    const sandbox = document.createElement('div');
+    sandbox.innerHTML = code;
+    sandbox.querySelectorAll('script').forEach(s => s.remove());
+    content.appendChild(sandbox);
+
+    state.lessonCorrect++;
+    state.streak++;
+    const xp = state.streak >= 3 ? 15 : 10;
+    state.totalXP += xp;
+    floatXP(xp);
+    showFeedback(true, q.explain);
+  } else {
+    preview.className = 'code-result-preview fail';
+    content.className = 'preview-content';
+    // Show which parts are missing
+    const missing = q.required.filter(req => !lowerCode.includes(req.toLowerCase()));
+    content.textContent = 'Eksik: ' + missing.join(', ');
+
+    state.lessonWrong++;
+    state.streak = 0;
+    state.hearts = Math.max(0, state.hearts - 1);
+    showFeedback(false, q.explain);
+  }
+
+  // Disable editor
+  $('codeInput').disabled = true;
+  $('codeInput').style.opacity = '0.6';
+  const runBtn = $('runBtn');
+  const checkBtn = $('checkCodeBtn');
+  if (runBtn) runBtn.disabled = true;
+  if (checkBtn) checkBtn.disabled = true;
+
+  updateGlobalProgress();
+  saveState();
+}
+
+// ════════════
 // SEÇENEK SEÇİMİ
-// ══════════════════════════
+// ════════════
 let selectedIdx = null;
 function selectOption(idx) {
   if (state.answered) return;
@@ -614,9 +855,9 @@ function selectOption(idx) {
   $('checkBtn').disabled = false;
 }
 
-// ══════════════════════════
+// ════════════
 // CEVABI KONTROL ET
-// ══════════════════════════
+// ════════════
 function checkAnswer() {
   if (state.answered || selectedIdx === null) return;
   state.answered = true;
@@ -649,11 +890,11 @@ function checkAnswer() {
   saveState();
 }
 
-// ══════════════════════════
-// GERİ BİLDİRİM CUBUĞU
-// ══════════════════════════
-const correctPhrases = ["Harika! 🎉","Tam isabet! 🔥","Süper gidiyorsun! 💪","Muhteşem! ⭐","Doğru! ✅","Böyle devam et! 🚀","Harika iş! 🏆"];
-const wrongPhrases = ["Pek değil! 😅","Devam et! 💪","Neredeyse oldu! 🤔","Vazgeçme! 🙏","Hadi be! 😬","Bunu hatırlamaya çalış! 📝"];
+// ════════════
+// GERİ BİLDİRİM ÇUBUĞU
+// ════════════
+const correctPhrases = ["Harika! 🎉","Mükemmel! 🔥","Ateş gibisin! 💪","Süper! ⭐","Doğru! ✅","Böyle devam! 🚀","Muhteşem! 🏆"];
+const wrongPhrases = ["Tam değil! 😅","Devam et! 💪","Neredeyse! 🤔","Vazgeçme! 🙏","Eyvah! 😬","Bunu hatırla! 📝"];
 
 function showFeedback(correct, explain) {
   const bar = $('feedbackBar');
@@ -663,15 +904,16 @@ function showFeedback(correct, explain) {
     ? correctPhrases[Math.floor(Math.random()*correctPhrases.length)]
     : wrongPhrases[Math.floor(Math.random()*wrongPhrases.length)];
   $('fbSub').textContent = explain || '';
+  $('fbBtn').textContent = 'DEVAM ET';
 }
 
 function hideFeedback() {
   $('feedbackBar').className = 'feedback-bar';
 }
 
-// ══════════════════════════
-// DEVAM ET / İLERLE
-// ══════════════════════════
+// ════════════
+// DEVAM / İLERLE
+// ════════════
 function handleContinue() {
   advanceQuestion();
 }
@@ -688,9 +930,9 @@ function advanceQuestion() {
   }
 }
 
-// ══════════════════════════
-// DERSİ BİTİR
-// ══════════════════════════
+// ════════════
+// DERS BİTİR
+// ════════════
 function finishLesson() {
   const lesson = state.currentLesson;
   if (!state.lessonsCompleted.includes(lesson.id)) {
@@ -706,12 +948,12 @@ function finishLesson() {
   $('resultsContent').innerHTML = `
     <div class="trophy">${allDone ? '👑' : '🎉'}</div>
     <h2>${allDone ? 'Kurs Tamamlandı!' : 'Ders Tamamlandı!'}</h2>
-    <div class="sub">${lesson.icon} ${lesson.title}${allDone ? ' — Tüm dersleri bitirdin!' : ''}</div>
+    <div class="sub">${lesson.icon} ${lesson.title}${allDone ? ' — Tüm dersleri bitirdiniz!' : ''}</div>
     <div class="stats-row">
       <div class="stat-card"><div class="stat-val">${state.lessonCorrect}</div><div class="stat-lbl">Doğru</div></div>
       <div class="stat-card"><div class="stat-val red">${state.lessonWrong}</div><div class="stat-lbl">Hata</div></div>
       <div class="stat-card"><div class="stat-val">${state.totalXP}</div><div class="stat-lbl">Toplam XP</div></div>
-      ${bonus ? '<div class="stat-card"><div class="stat-val">+' + bonus + '</div><div class="stat-lbl">Kusursuz Bonus</div></div>' : ''}
+      ${bonus ? '<div class="stat-card"><div class="stat-val">+' + bonus + '</div><div class="stat-lbl">Mükemmel Bonus</div></div>' : ''}
     </div>
     <button class="btn-cta green" onclick="goHome()" style="max-width:320px;margin:0 auto">${allDone ? 'ANA SAYFAYA DÖN 👑' : 'ÖĞRENMEYE DEVAM ET →'}</button>
   `;
@@ -725,9 +967,9 @@ function goHome() {
   renderHome();
 }
 
-// ════════════════
+// ════════════
 // BAŞLAT
-// ════════════════
+// ════════════
 renderHome();
 </script>
 </body>
