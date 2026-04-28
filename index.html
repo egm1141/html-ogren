@@ -77,7 +77,7 @@
   .hero h1 span{color:var(--duo-green)}
   .hero p{color:var(--duo-text-dim);font-size:1.05rem;max-width:400px;margin:0 auto}
 
-  .lesson-path{display:flex;flex-direction:column;align-items:center;gap:0;padding:30px 0}
+  .lesson-path{display:flex;flex-direction:column;align-items:center;gap:0;padding:30px 0;width:100%}
   .lesson-node{position:relative;display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform .2s}
   .lesson-node:hover{transform:scale(1.05)}
   .lesson-circle{
@@ -93,18 +93,21 @@
   .lesson-circle.purple{background:var(--duo-purple);box-shadow:0 6px 0 var(--duo-purple-dark)}
   .lesson-circle.orange{background:var(--duo-orange);box-shadow:0 6px 0 var(--duo-orange-dark)}
   .lesson-circle.locked{background:#4b5d67;box-shadow:0 6px 0 #3a484f;cursor:not-allowed;opacity:.6}
-  .lesson-circle:active:not(.locked){transform:translateY(4px);box-shadow:0 2px 0 var(--duo-green-dark)}
+  .lesson-circle.green:active:not(.locked){transform:translateY(4px);box-shadow:0 2px 0 var(--duo-green-dark)}
+  .lesson-circle.blue:active:not(.locked){transform:translateY(4px);box-shadow:0 2px 0 var(--duo-blue-dark)}
+  .lesson-circle.purple:active:not(.locked){transform:translateY(4px);box-shadow:0 2px 0 var(--duo-purple-dark)}
+  .lesson-circle.orange:active:not(.locked){transform:translateY(4px);box-shadow:0 2px 0 var(--duo-orange-dark)}
   .lesson-circle .lock-icon{font-size:1.6rem}
   .lesson-circle .check{font-size:1.8rem}
   .lesson-label{margin-top:10px;font-weight:700;font-size:.85rem;color:var(--duo-text-dim);text-align:center;max-width:120px}
   .connector{width:3px;height:36px;background:var(--duo-card-border);border-radius:999px}
   .lesson-node.completed .lesson-circle{background:var(--duo-green);box-shadow:0 6px 0 var(--duo-green-dark)}
 
-  /* zigzag yolu */
-  .lesson-node:nth-child(4n+1){align-self:center}
-  .lesson-node:nth-child(4n+2){align-self:flex-end;margin-right:15%}
-  .lesson-node:nth-child(4n+3){align-self:center}
-  .lesson-node:nth-child(4n+4){align-self:flex-start;margin-left:15%}
+  /* zigzag yolu düzenlemesi - her 4 düğüm için 8 elemanlı döngü */
+  .lesson-node:nth-child(8n+1){align-self:center}
+  .lesson-node:nth-child(8n+3){align-self:flex-end;margin-right:15%}
+  .lesson-node:nth-child(8n+5){align-self:center}
+  .lesson-node:nth-child(8n+7){align-self:flex-start;margin-left:15%}
   .connector-wrap{display:flex;justify-content:center;width:100%}
 
   /* ─── QUIZ SCREEN ─── */
@@ -249,8 +252,8 @@
     .feedback-bar .fb-btn{width:100%}
     .stats-row{gap:12px}
     .stat-card{padding:12px 16px;min-width:80px}
-    .lesson-node:nth-child(4n+2){margin-right:5%}
-    .lesson-node:nth-child(4n+4){margin-left:5%}
+    .lesson-node:nth-child(8n+3){margin-right:5%}
+    .lesson-node:nth-child(8n+7){margin-left:5%}
     .lesson-circle{width:60px;height:60px;font-size:1.5rem}
   }
 
@@ -364,7 +367,7 @@ const LESSONS = [
     questions:[
       {prompt:"Hangi etiket bir köprü oluşturur?", options:["&lt;link&gt;","&lt;a&gt;","&lt;href&gt;","&lt;url&gt;"], correct:1, explain:"<a> (anchor) link etiketidir. <link> ise stil dosyaları içindir!"},
       {prompt:"Hangi öznitelik bağlantının hedef URL'sini belirtir?", options:["src","link","url","href"], correct:3, explain:'href, "Hypertext Reference" (Hiper Metin Referansı) anlamına gelir.'},
-      {prompt:'<code>&lt;a href="#top"&gt;Yukarı Git&lt;/a&gt;</code> kodu ne yapar?', options:["Yeni bir sayfa açar","id=\'top\' olan elemana kaydırır","Bir başlık oluşturur","Hiçbir şey"], correct:1, explain:'Bir # linki, aynı sayfadaki o ID'ye sahip elemana atlar.'},
+      {prompt:'<code>&lt;a href="#top"&gt;Yukarı Git&lt;/a&gt;</code> kodu ne yapar?', options:["Yeni bir sayfa açar","id=\'top\' olan elemana kaydırır","Bir başlık oluşturur","Hiçbir şey"], correct:1, explain:'Bir # linki, aynı sayfadaki o ID\'ye sahip elemana atlar.'},
     ]
   },
   {
@@ -389,9 +392,9 @@ const LESSONS = [
     id:6, title:"Divler & Spanlar", icon:"📦", color:"blue",
     learn:{tag:"&lt;div&gt; &lt;span&gt;", desc:"<code>&lt;div&gt;</code> elemanları gruplamak için bir block kapsayıcıdır. <code>&lt;span&gt;</code> ise küçük metin parçalarını stillendirmek için bir inline kapsayıcıdır.", example:'&lt;div class="kart"&gt;\n  &lt;p&gt;Merhaba &lt;span style="color:red"&gt;Dünya&lt;/span&gt;&lt;/p&gt;\n&lt;/div&gt;'},
     questions:[
-      {prompt:"Hangi etiket genel bir BLOCK-level kapsayıcıdır?", options:["&lt;span&gt;","&lt;section&gt;","&lt;div&gt;","&lt;container&gt;"], correct:2, explain:"<div>, HTML'deki en yaygın block-level kapsayıcıdır."},
+      {prompt:"Hangi etiket genel bir BLOCK-level kapsayıcıdır?", options:["&lt;span&gt;","&lt;section&gt;","&lt;div&gt;","&lt;container&gt;"], correct:2, explain:"<div>, HTML\'deki en yaygın block-level kapsayıcıdır."},
       {prompt:"Küçük bir INLINE metin parçasını stillendirmek için hangisi kullanılır?", options:["&lt;div&gt;","&lt;span&gt;","&lt;text&gt;","&lt;inline&gt;"], correct:1, explain:"<span>, inline içeriği hedeflemek için kullanılır."},
-      {prompt:"Bir &lt;div&gt; içine başka bir &lt;div&gt; koyabilir misiniz?", options:["Hayır, geçersizdir","Evet, divleri iç içe koymak yaygındır","Sadece özel özniteliklerle","Sadece HTML5'te"], correct:1, explain:"Divleri iç içe koymak (nesting) tamamen geçerli ve düzenler için çok yaygındır."},
+      {prompt:"Bir &lt;div&gt; içine başka bir &lt;div&gt; koyabilir misiniz?", options:["Hayır, geçersizdir","Evet, divleri iç içe koymak yaygındır","Sadece özel özniteliklerle","Sadece HTML5\'te"], correct:1, explain:"Divleri iç içe koymak (nesting) tamamen geçerli ve düzenler için çok yaygındır."},
     ]
   },
 ];
