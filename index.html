@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HTML Duo — Learn HTML the Fun Way!</title>
+<title>HTML Duo — HTML Öğrenmenin En Eğlenceli Yolu!</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 
@@ -100,7 +100,7 @@
   .connector{width:3px;height:36px;background:var(--duo-card-border);border-radius:999px}
   .lesson-node.completed .lesson-circle{background:var(--duo-green);box-shadow:0 6px 0 var(--duo-green-dark)}
 
-  /* offset path zigzag */
+  /* zigzag yolu */
   .lesson-node:nth-child(4n+1){align-self:center}
   .lesson-node:nth-child(4n+2){align-self:flex-end;margin-right:15%}
   .lesson-node:nth-child(4n+3){align-self:center}
@@ -293,7 +293,7 @@
 </div>
 
 <!-- Streak Indicator -->
-<div class="streak-indicator" id="streakIndicator">🔥 <span id="streakText">0</span> streak!</div>
+<div class="streak-indicator" id="streakIndicator">🔥 <span id="streakText">0</span> seri!</div>
 
 <!-- Toast -->
 <div class="toast" id="toast"></div>
@@ -307,7 +307,7 @@
       <div class="fb-sub" id="fbSub"></div>
     </div>
   </div>
-  <button class="fb-btn" id="fbBtn" onclick="handleContinue()">CONTINUE</button>
+  <button class="fb-btn" id="fbBtn" onclick="handleContinue()">DEVAM ET</button>
 </div>
 
 <!-- APP -->
@@ -317,8 +317,8 @@
   <div class="screen active" id="homeScreen">
     <div class="hero">
       <div class="hero-icon">🦉</div>
-      <h1>Learn <span>HTML</span> Tags</h1>
-      <p>Master the building blocks of the web, one lesson at a time!</p>
+      <h1><span>HTML</span> Etiketlerini Öğren</h1>
+      <p>Web'in temel taşlarını her seferinde bir dersle feth et!</p>
     </div>
     <div class="lesson-path" id="lessonPath"></div>
   </div>
@@ -337,67 +337,67 @@
 
 <script>
 // ══════════════════════════════
-// DATA: Lessons & Questions
+// VERİ: Dersler & Sorular
 // ══════════════════════════════
 const LESSONS = [
   {
-    id:1, title:"Headings", icon:"📝", color:"green",
-    learn:{tag:"&lt;h1&gt; – &lt;h6&gt;", desc:"Heading tags define titles and subtitles. <code>&lt;h1&gt;</code> is the biggest, <code>&lt;h6&gt;</code> is the smallest.", example:"&lt;h1&gt;Welcome!&lt;/h1&gt;\n&lt;h2&gt;About Us&lt;/h2&gt;"},
+    id:1, title:"Başlıklar", icon:"📝", color:"green",
+    learn:{tag:"&lt;h1&gt; – &lt;h6&gt;", desc:"Başlık etiketleri başlıkları ve alt başlıkları tanımlar. <code>&lt;h1&gt;</code> en büyük, <code>&lt;h6&gt;</code> en küçüktür.", example:"&lt;h1&gt;Hoşgeldiniz!&lt;/h1&gt;\n&lt;h2&gt;Hakkımızda&lt;/h2&gt;"},
     questions:[
-      {prompt:"Which tag creates the LARGEST heading?", options:["&lt;h6&gt;","&lt;h1&gt;","&lt;head&gt;","&lt;big&gt;"], correct:1, explain:"<h1> is the highest-level heading — the biggest and boldest!"},
-      {prompt:"How many heading levels does HTML provide?", options:["4","5","6","8"], correct:2, explain:"HTML has 6 heading levels: <h1> through <h6>."},
-      {prompt:"What does the following code produce?<br><code>&lt;h3&gt;Hello&lt;/h3&gt;</code>", options:["A paragraph","A medium-sized heading","A link","A list item"], correct:1, explain:"<h3> creates a mid-level heading — smaller than <h1> and <h2>."},
+      {prompt:"Hangi etiket EN BÜYÜK başlığı oluşturur?", options:["&lt;h6&gt;","&lt;h1&gt;","&lt;head&gt;","&lt;big&gt;"], correct:1, explain:"<h1> en üst düzey başlıktır — en büyük ve en kalın!"},
+      {prompt:"HTML kaç tane başlık seviyesi sunar?", options:["4","5","6","8"], correct:2, explain:"HTML'de 6 başlık seviyesi vardır: <h1>'den <h6>'ya kadar."},
+      {prompt:"Aşağıdaki kod ne üretir?<br><code>&lt;h3&gt;Merhaba&lt;/h3&gt;</code>", options:["Bir paragraf","Orta boy bir başlık","Bir link","Bir liste elemanı"], correct:1, explain:"<h3> orta düzey bir başlık oluşturur — <h1> ve <h2>'den küçüktür."},
     ]
   },
   {
-    id:2, title:"Paragraphs", icon:"📄", color:"blue",
-    learn:{tag:"&lt;p&gt;", desc:"The paragraph tag wraps blocks of text. Browsers automatically add spacing above and below it.", example:"&lt;p&gt;HTML is awesome!&lt;/p&gt;\n&lt;p&gt;Let's keep learning.&lt;/p&gt;"},
+    id:2, title:"Paragraflar", icon:"📄", color:"blue",
+    learn:{tag:"&lt;p&gt;", desc:"Paragraf etiketi metin bloklarını sarmalar. Tarayıcılar otomatik olarak üstüne ve altına boşluk ekler.", example:"&lt;p&gt;HTML harika!&lt;/p&gt;\n&lt;p&gt;Öğrenmeye devam edelim.&lt;/p&gt;"},
     questions:[
-      {prompt:"Which tag is used for a paragraph of text?", options:["&lt;para&gt;","&lt;text&gt;","&lt;p&gt;","&lt;pg&gt;"], correct:2, explain:"<p> is the paragraph tag — simple and essential!"},
-      {prompt:"What happens when you put two &lt;p&gt; tags in a row?", options:["They merge into one paragraph","Each starts on a new line with space between","They appear on the same line","An error occurs"], correct:1, explain:"Each <p> tag creates a separate block with spacing."},
-      {prompt:"Is &lt;p&gt; an inline or block-level element?", options:["Inline","Block-level","Neither","Both"], correct:1, explain:"<p> is block-level — it takes up the full width available."},
+      {prompt:"Metin paragrafı için hangi etiket kullanılır?", options:["&lt;para&gt;","&lt;text&gt;","&lt;p&gt;","&lt;pg&gt;"], correct:2, explain:"<p> paragraf etiketidir — basit ve temel!"},
+      {prompt:"Arka arkaya iki &lt;p&gt; etiketi koyarsanız ne olur?", options:["Tek bir paragrafta birleşirler","Her biri aralarında boşluk olacak şekilde yeni satırda başlar","Aynı satırda görünürler","Hata oluşur"], correct:1, explain:"Her <p> etiketi aralarında boşluk olan ayrı bir blok oluşturur."},
+      {prompt:"&lt;p&gt; bir inline mı yoksa block-level eleman mıdır?", options:["Inline","Block-level","Hiçbiri","Her ikisi"], correct:1, explain:"<p> block-level bir elemandır — mevcut tüm genişliği kaplar."},
     ]
   },
   {
-    id:3, title:"Links", icon:"🔗", color:"purple",
-    learn:{tag:"&lt;a&gt;", desc:"The anchor tag creates clickable hyperlinks. The <code>href</code> attribute tells the browser where to go.", example:'&lt;a href="https://example.com"&gt;\n  Visit Example\n&lt;/a&gt;'},
+    id:3, title:"Linkler", icon:"🔗", color:"purple",
+    learn:{tag:"&lt;a&gt;", desc:"Anchor (çapa) etiketi tıklanabilir köprüler oluşturur. <code>href</code> özniteliği tarayıcıya nereye gideceğini söyler.", example:'&lt;a href="https://example.com"&gt;\n  Sitemi Ziyaret Et\n&lt;/a&gt;'},
     questions:[
-      {prompt:"Which tag creates a hyperlink?", options:["&lt;link&gt;","&lt;a&gt;","&lt;href&gt;","&lt;url&gt;"], correct:1, explain:"<a> (anchor) is the hyperlink tag. <link> is for stylesheets!"},
-      {prompt:"What attribute specifies the link's destination URL?", options:["src","link","url","href"], correct:3, explain:'href stands for "Hypertext Reference" — it holds the URL.'},
-      {prompt:'What does <code>&lt;a href="#top"&gt;Go Up&lt;/a&gt;</code> do?', options:["Opens a new page","Scrolls to an element with id=\'top\'","Creates a heading","Nothing"], correct:1, explain:'A # link jumps to the element with that ID on the same page.'},
+      {prompt:"Hangi etiket bir köprü oluşturur?", options:["&lt;link&gt;","&lt;a&gt;","&lt;href&gt;","&lt;url&gt;"], correct:1, explain:"<a> (anchor) link etiketidir. <link> ise stil dosyaları içindir!"},
+      {prompt:"Hangi öznitelik bağlantının hedef URL'sini belirtir?", options:["src","link","url","href"], correct:3, explain:'href, "Hypertext Reference" (Hiper Metin Referansı) anlamına gelir.'},
+      {prompt:'<code>&lt;a href="#top"&gt;Yukarı Git&lt;/a&gt;</code> kodu ne yapar?', options:["Yeni bir sayfa açar","id=\'top\' olan elemana kaydırır","Bir başlık oluşturur","Hiçbir şey"], correct:1, explain:'Bir # linki, aynı sayfadaki o ID'ye sahip elemana atlar.'},
     ]
   },
   {
-    id:4, title:"Images", icon:"🖼️", color:"orange",
-    learn:{tag:"&lt;img&gt;", desc:"The image tag embeds pictures. It's self-closing! Use <code>src</code> for the URL and <code>alt</code> for a text description.", example:'&lt;img src="photo.jpg" alt="A sunset" /&gt;'},
+    id:4, title:"Resimler", icon:"🖼️", color:"orange",
+    learn:{tag:"&lt;img&gt;", desc:"Resim etiketi görselleri gömer. Kendi kendine kapanır! URL için <code>src</code>, metin açıklaması için <code>alt</code> kullanın.", example:'&lt;img src="fotograf.jpg" alt="Bir gün batımı" /&gt;'},
     questions:[
-      {prompt:"Which tag displays an image?", options:["&lt;pic&gt;","&lt;image&gt;","&lt;img&gt;","&lt;photo&gt;"], correct:2, explain:"<img> is the image tag — short and sweet!"},
-      {prompt:"Which attribute is the image file path?", options:["href","link","src","file"], correct:2, explain:'src (source) points to the image file location.'},
-      {prompt:"Why is the <code>alt</code> attribute important?", options:["It makes images bigger","It's required for the image to load","It provides text for screen readers &amp; broken images","It adds a border"], correct:2, explain:"alt text is crucial for accessibility and when images can't load."},
+      {prompt:"Hangi etiket bir resim gösterir?", options:["&lt;pic&gt;","&lt;image&gt;","&lt;img&gt;","&lt;photo&gt;"], correct:2, explain:"<img> resim etiketidir — kısa ve öz!"},
+      {prompt:"Hangi öznitelik resim dosyası yoludur?", options:["href","link","src","file"], correct:2, explain:'src (source - kaynak) resim dosyasının konumunu gösterir.'},
+      {prompt:"<code>alt</code> özniteliği neden önemlidir?", options:["Resimleri büyütür","Resmin yüklenmesi için gereklidir","Ekran okuyucular ve yüklenemeyen resimler için metin sağlar","Kenarlık ekler"], correct:2, explain:"alt metni, erişilebilirlik ve resimler yüklenemediğinde kritiktir."},
     ]
   },
   {
-    id:5, title:"Lists", icon:"📋", color:"green",
-    learn:{tag:"&lt;ul&gt; &lt;ol&gt; &lt;li&gt;", desc:"<code>&lt;ul&gt;</code> creates bullet lists, <code>&lt;ol&gt;</code> creates numbered lists. Each item uses <code>&lt;li&gt;</code>.", example:"&lt;ul&gt;\n  &lt;li&gt;HTML&lt;/li&gt;\n  &lt;li&gt;CSS&lt;/li&gt;\n  &lt;li&gt;JavaScript&lt;/li&gt;\n&lt;/ul&gt;"},
+    id:5, title:"Listeler", icon:"📋", color:"green",
+    learn:{tag:"&lt;ul&gt; &lt;ol&gt; &lt;li&gt;", desc:"<code>&lt;ul&gt;</code> maddeli listeler, <code>&lt;ol&gt;</code> numaralı listeler oluşturur. Her öğe <code>&lt;li&gt;</code> kullanır.", example:"&lt;ul&gt;\n  &lt;li&gt;HTML&lt;/li&gt;\n  &lt;li&gt;CSS&lt;/li&gt;\n  &lt;li&gt;JavaScript&lt;/li&gt;\n&lt;/ul&gt;"},
     questions:[
-      {prompt:"Which tag creates a bulleted (unordered) list?", options:["&lt;ol&gt;","&lt;list&gt;","&lt;ul&gt;","&lt;bl&gt;"], correct:2, explain:"<ul> stands for Unordered List — bullets, not numbers!"},
-      {prompt:"Which tag wraps each individual list item?", options:["&lt;item&gt;","&lt;li&gt;","&lt;il&gt;","&lt;list&gt;"], correct:1, explain:"<li> stands for List Item."},
-      {prompt:"What's the difference between &lt;ul&gt; and &lt;ol&gt;?", options:["No difference","ul = numbered, ol = bulleted","ul = bulleted, ol = numbered","ul is for links, ol is for text"], correct:2, explain:"<ul> = Unordered (bullets), <ol> = Ordered (numbers)."},
+      {prompt:"Hangi etiket maddeli (sırasız) bir liste oluşturur?", options:["&lt;ol&gt;","&lt;list&gt;","&lt;ul&gt;","&lt;bl&gt;"], correct:2, explain:"<ul>, Unordered List (Sırasız Liste) demektir — numaralar değil, maddeler!"},
+      {prompt:"Her bir liste öğesini hangi etiket sarmalar?", options:["&lt;item&gt;","&lt;li&gt;","&lt;il&gt;","&lt;list&gt;"], correct:1, explain:"<li>, List Item (Liste Öğesi) demektir."},
+      {prompt:"&lt;ul&gt; ve &lt;ol&gt; arasındaki fark nedir?", options:["Fark yoktur","ul = numaralı, ol = maddeli","ul = maddeli, ol = numaralı","ul linkler için, ol metin için"], correct:2, explain:"<ul> = Sırasız (maddeler), <ol> = Sıralı (numaralar)."},
     ]
   },
   {
-    id:6, title:"Divs & Spans", icon:"📦", color:"blue",
-    learn:{tag:"&lt;div&gt; &lt;span&gt;", desc:"<code>&lt;div&gt;</code> is a block container for grouping elements. <code>&lt;span&gt;</code> is an inline container for styling small pieces of text.", example:'&lt;div class="card"&gt;\n  &lt;p&gt;Hello &lt;span style="color:red"&gt;World&lt;/span&gt;&lt;/p&gt;\n&lt;/div&gt;'},
+    id:6, title:"Divler & Spanlar", icon:"📦", color:"blue",
+    learn:{tag:"&lt;div&gt; &lt;span&gt;", desc:"<code>&lt;div&gt;</code> elemanları gruplamak için bir block kapsayıcıdır. <code>&lt;span&gt;</code> ise küçük metin parçalarını stillendirmek için bir inline kapsayıcıdır.", example:'&lt;div class="kart"&gt;\n  &lt;p&gt;Merhaba &lt;span style="color:red"&gt;Dünya&lt;/span&gt;&lt;/p&gt;\n&lt;/div&gt;'},
     questions:[
-      {prompt:"Which tag is a generic BLOCK-level container?", options:["&lt;span&gt;","&lt;section&gt;","&lt;div&gt;","&lt;container&gt;"], correct:2, explain:"<div> is the most common block-level container in HTML."},
-      {prompt:"Which tag is used to style a small piece of INLINE text?", options:["&lt;div&gt;","&lt;span&gt;","&lt;text&gt;","&lt;inline&gt;"], correct:1, explain:"<span> wraps inline content for styling or targeting."},
-      {prompt:"Can you put a &lt;div&gt; inside another &lt;div&gt;?", options:["No, it's invalid","Yes, nesting divs is common","Only with special attributes","Only in HTML5"], correct:1, explain:"Nesting divs is perfectly valid and very common in layouts."},
+      {prompt:"Hangi etiket genel bir BLOCK-level kapsayıcıdır?", options:["&lt;span&gt;","&lt;section&gt;","&lt;div&gt;","&lt;container&gt;"], correct:2, explain:"<div>, HTML'deki en yaygın block-level kapsayıcıdır."},
+      {prompt:"Küçük bir INLINE metin parçasını stillendirmek için hangisi kullanılır?", options:["&lt;div&gt;","&lt;span&gt;","&lt;text&gt;","&lt;inline&gt;"], correct:1, explain:"<span>, inline içeriği hedeflemek için kullanılır."},
+      {prompt:"Bir &lt;div&gt; içine başka bir &lt;div&gt; koyabilir misiniz?", options:["Hayır, geçersizdir","Evet, divleri iç içe koymak yaygındır","Sadece özel özniteliklerle","Sadece HTML5'te"], correct:1, explain:"Divleri iç içe koymak (nesting) tamamen geçerli ve düzenler için çok yaygındır."},
     ]
   },
 ];
 
 // ══════════════════════════════
-// STATE
+// DURUM
 // ══════════════════════════════
 let state = {
   currentLesson: null,
@@ -413,7 +413,7 @@ let state = {
   lessonWrong: 0,
 };
 
-// Load saved state
+// Kaydedilmiş durumu yükle
 try {
   const saved = localStorage.getItem('htmlduo_state');
   if (saved) {
@@ -437,7 +437,7 @@ function saveState() {
 }
 
 // ══════════════════════════
-// UI HELPERS
+// UI YARDIMCILARI
 // ══════════════════════════
 const $ = id => document.getElementById(id);
 
@@ -493,7 +493,7 @@ function spawnConfetti() {
 }
 
 // ══════════════════════════
-// HOME SCREEN — LESSON PATH
+// ANA EKRAN — DERS YOLU
 // ══════════════════════════
 function renderHome() {
   const path = $('lessonPath');
@@ -527,11 +527,11 @@ function renderHome() {
 }
 
 // ══════════════════════════
-// START LESSON
+// DERSİ BAŞLAT
 // ══════════════════════════
 function startLesson(lesson) {
   if (state.hearts <= 0) {
-    showToast('No hearts left! Wait or refresh.', true);
+    showToast('Canın kalmadı! Bekle veya yenile.', true);
     state.hearts = 5;
     saveState();
     updateGlobalProgress();
@@ -548,7 +548,7 @@ function startLesson(lesson) {
 }
 
 // ══════════════════════════
-// RENDER QUIZ / LEARN
+// TEST / ÖĞRENME EKRANI
 // ══════════════════════════
 function renderQuiz() {
   const lesson = state.currentLesson;
@@ -556,7 +556,7 @@ function renderQuiz() {
   hideFeedback();
 
   if (state.currentQuestion === -1) {
-    // Learn phase
+    // Öğrenme aşaması
     const l = lesson.learn;
     qc.innerHTML = `
       <div class="quiz-header">
@@ -568,7 +568,7 @@ function renderQuiz() {
         <div class="tag-desc">${l.desc}</div>
         <div class="tag-example">${l.example}</div>
       </div>
-      <button class="btn-cta green" onclick="advanceQuestion()">GOT IT — LET'S PRACTICE!</button>
+      <button class="btn-cta green" onclick="advanceQuestion()">ANLADIM — HAYDİ PRATİK YAPALIM!</button>
     `;
     return;
   }
@@ -585,7 +585,7 @@ function renderQuiz() {
   qc.innerHTML = `
     <div class="quiz-header">
       <div class="lesson-title">${lesson.icon} ${lesson.title}</div>
-      <div class="question-counter">Question ${qi+1} of ${total}</div>
+      <div class="question-counter">Soru ${qi+1} / ${total}</div>
     </div>
     <div class="quiz-progress"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
     <div class="quiz-card">
@@ -593,14 +593,14 @@ function renderQuiz() {
       ${q.hint ? '<div class="hint">' + q.hint + '</div>' : ''}
       <div class="options">${optionsHTML}</div>
     </div>
-    <button class="btn-cta green" id="checkBtn" disabled onclick="checkAnswer()">CHECK</button>
+    <button class="btn-cta green" id="checkBtn" disabled onclick="checkAnswer()">KONTROL ET</button>
   `;
   state.answered = false;
   state.selectedOption = null;
 }
 
 // ══════════════════════════
-// OPTION SELECTION
+// SEÇENEK SEÇİMİ
 // ══════════════════════════
 let selectedIdx = null;
 function selectOption(idx) {
@@ -612,7 +612,7 @@ function selectOption(idx) {
 }
 
 // ══════════════════════════
-// CHECK ANSWER
+// CEVABI KONTROL ET
 // ══════════════════════════
 function checkAnswer() {
   if (state.answered || selectedIdx === null) return;
@@ -647,10 +647,10 @@ function checkAnswer() {
 }
 
 // ══════════════════════════
-// FEEDBACK BAR
+// GERİ BİLDİRİM CUBUĞU
 // ══════════════════════════
-const correctPhrases = ["Brilliant! 🎉","Nailed it! 🔥","You're on fire! 💪","Amazing! ⭐","Correct! ✅","Keep it up! 🚀","Superb! 🏆"];
-const wrongPhrases = ["Not quite! 😅","Keep going! 💪","Almost there! 🤔","Don't give up! 🙏","Oops! 😬","Try to remember this one! 📝"];
+const correctPhrases = ["Harika! 🎉","Tam isabet! 🔥","Süper gidiyorsun! 💪","Muhteşem! ⭐","Doğru! ✅","Böyle devam et! 🚀","Harika iş! 🏆"];
+const wrongPhrases = ["Pek değil! 😅","Devam et! 💪","Neredeyse oldu! 🤔","Vazgeçme! 🙏","Hadi be! 😬","Bunu hatırlamaya çalış! 📝"];
 
 function showFeedback(correct, explain) {
   const bar = $('feedbackBar');
@@ -667,7 +667,7 @@ function hideFeedback() {
 }
 
 // ══════════════════════════
-// CONTINUE / ADVANCE
+// DEVAM ET / İLERLE
 // ══════════════════════════
 function handleContinue() {
   advanceQuestion();
@@ -686,7 +686,7 @@ function advanceQuestion() {
 }
 
 // ══════════════════════════
-// FINISH LESSON
+// DERSİ BİTİR
 // ══════════════════════════
 function finishLesson() {
   const lesson = state.currentLesson;
@@ -702,15 +702,15 @@ function finishLesson() {
 
   $('resultsContent').innerHTML = `
     <div class="trophy">${allDone ? '👑' : '🎉'}</div>
-    <h2>${allDone ? 'Course Complete!' : 'Lesson Complete!'}</h2>
-    <div class="sub">${lesson.icon} ${lesson.title}${allDone ? ' — You finished all lessons!' : ''}</div>
+    <h2>${allDone ? 'Kurs Tamamlandı!' : 'Ders Tamamlandı!'}</h2>
+    <div class="sub">${lesson.icon} ${lesson.title}${allDone ? ' — Tüm dersleri bitirdin!' : ''}</div>
     <div class="stats-row">
-      <div class="stat-card"><div class="stat-val">${state.lessonCorrect}</div><div class="stat-lbl">Correct</div></div>
-      <div class="stat-card"><div class="stat-val red">${state.lessonWrong}</div><div class="stat-lbl">Mistakes</div></div>
-      <div class="stat-card"><div class="stat-val">${state.totalXP}</div><div class="stat-lbl">Total XP</div></div>
-      ${bonus ? '<div class="stat-card"><div class="stat-val">+' + bonus + '</div><div class="stat-lbl">Perfect Bonus</div></div>' : ''}
+      <div class="stat-card"><div class="stat-val">${state.lessonCorrect}</div><div class="stat-lbl">Doğru</div></div>
+      <div class="stat-card"><div class="stat-val red">${state.lessonWrong}</div><div class="stat-lbl">Hata</div></div>
+      <div class="stat-card"><div class="stat-val">${state.totalXP}</div><div class="stat-lbl">Toplam XP</div></div>
+      ${bonus ? '<div class="stat-card"><div class="stat-val">+' + bonus + '</div><div class="stat-lbl">Kusursuz Bonus</div></div>' : ''}
     </div>
-    <button class="btn-cta green" onclick="goHome()" style="max-width:320px;margin:0 auto">${allDone ? 'BACK TO HOME 👑' : 'CONTINUE LEARNING →'}</button>
+    <button class="btn-cta green" onclick="goHome()" style="max-width:320px;margin:0 auto">${allDone ? 'ANA SAYFAYA DÖN 👑' : 'ÖĞRENMEYE DEVAM ET →'}</button>
   `;
   showScreen('results');
   spawnConfetti();
@@ -722,8 +722,8 @@ function goHome() {
   renderHome();
 }
 
-// ════════════════════
-// INIT
+// ════════════════
+// BAŞLAT
 // ════════════════
 renderHome();
 </script>
